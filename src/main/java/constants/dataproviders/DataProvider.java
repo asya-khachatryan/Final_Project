@@ -7,6 +7,13 @@ public class DataProvider {
             {123}
     };
 
+    public static Object[][] INVALID_EMAILS = new Object[][]{
+            {"test.example.com"},
+            {12345},
+            {"@example.com"},
+            {"paul@example"}
+    };
+
 
     public static Object[][] VALID_SEARCH_TERMS = new Object[][]{
             {"test"},

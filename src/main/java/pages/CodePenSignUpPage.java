@@ -16,6 +16,10 @@ public class CodePenSignUpPage extends BasePage {
     private final By signUpWithEmailButton = By.xpath(CodePenSignUpPageConstants.SIGN_UP_WITH_EMAIL_BUTTON);
     private final By signUpUsernameField = By.id(CodePenSignUpPageConstants.SIGN_UP_USERNAME_FIELD);
     private final By usernamePreview = By.id(CodePenSignUpPageConstants.SIGN_UP_USERNAME_PREVIEW);
+    private final By signUpNameField = By.id(CodePenSignUpPageConstants.SIGN_UP_NAME_FIELD);
+    private final By signUpEmailField = By.id(CodePenSignUpPageConstants.SIGN_UP_EMAIL_FIELD);
+    private final By signUpPasswordField = By.id(CodePenSignUpPageConstants.SIGN_UP_PASSWORD_FIELD);
+
 
     private final By usernameField = By.id(CodePenSignUpPageConstants.USERNAME_FIELD);
     private final By passwordField = By.id(CodePenSignUpPageConstants.PASSWORD_FIELD);
@@ -42,6 +46,19 @@ public class CodePenSignUpPage extends BasePage {
 
     public String getUsernamePreview(){
         return getElementText(usernamePreview);
+    }
+
+    public void fillName(String name){
+        enterText(signUpNameField, name);
+    }
+
+    public void fillEmail(String email){
+        enterText(signUpEmailField, email);
+    }
+
+
+    public void fillPassword(String password){
+        enterText(signUpPasswordField, password);
     }
 
 //    public void fillUsername(String username){

@@ -5,6 +5,7 @@ import org.testng.asserts.SoftAssert;
 import pages.CodePenSearchResultPage;
 
 import static constants.messages.PageMessages.emptySearchMessage;
+import static constants.messages.PageMessages.noPensFoundMessage;
 import static constants.urls.PageUrls.searchResultUrl;
 
 public class SearchTests extends BaseTest {
@@ -35,6 +36,16 @@ public class SearchTests extends BaseTest {
         softAssert.assertTrue(searchResultPage.getCurrentUrl().contains(searchResultUrl));
         String str = input.replaceAll(" ", "+").toLowerCase();
         softAssert.assertEquals(searchResultPage.getCurrentUrl(), searchResultUrl + "?q=" + str);
+        softAssert.assertAll();
+    }
+
+    @Test
+    public void testInvalidInputSearch() {
+        SoftAssert softAssert = new SoftAssert();
+        CodePenSearchResultPage searchResultPage = homePage.search("@#$%");
+        softAssert.assertEquals(searchResultPage.getPageTitle(), "CodePen Search");
+        softAssert.assertTrue(searchResultPage.getCurrentUrl().contains(searchResultUrl));
+        softAssert.assertEquals(searchResultPage.getMessage(), noPensFoundMessage + "@#$%");
         softAssert.assertAll();
     }
 }

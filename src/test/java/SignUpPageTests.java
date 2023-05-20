@@ -6,14 +6,7 @@ import pages.CodePenSignUpPage;
 
 import java.util.List;
 
-import static constants.messages.ErrorMessages.nameRequiredErrorMessage;
-import static constants.messages.ErrorMessages.duplicateUsernameErrorMessage;
-import static constants.messages.ErrorMessages.usernameRequiredErrorMessage;
-import static constants.messages.ErrorMessages.emailRequiredErrorMessage;
-import static constants.messages.ErrorMessages.passwordCasesErrorMessage;
-import static constants.messages.ErrorMessages.passwordNumberErrorMessage;
-import static constants.messages.ErrorMessages.passwordSpecialCharacterErrorMessage;
-import static constants.messages.ErrorMessages.passwordCharacterCountErrorMessage;
+import static constants.messages.ErrorMessages.*;
 
 
 public class SignUpPageTests extends BaseTest {
@@ -21,6 +14,11 @@ public class SignUpPageTests extends BaseTest {
     @org.testng.annotations.DataProvider
     public static Object[][] invalidUsernames(){
         return DataProvider.INVALID_USERNAMES;
+    }
+
+    @org.testng.annotations.DataProvider(name = "invalid-emails")
+    public static Object[][] invalidEmails(){
+        return DataProvider.INVALID_EMAILS;
     }
 
 
@@ -41,6 +39,41 @@ public class SignUpPageTests extends BaseTest {
         softAssert.assertTrue(errorMessages.contains(passwordCharacterCountErrorMessage));
         softAssert.assertAll();
     }
+
+    @Test
+    public void testValidInputs(){
+        SoftAssert softAssert = new SoftAssert();
+        CodePenSignUpPage signUpPage = homePage.clickSignUpLink();
+        signUpPage.clickSignUpWithEmail();
+        signUpPage.fillName("Asya");
+        signUpPage.fillUsername("asyatesting");
+        signUpPage.fillEmail("asya_khachatryan2@edu.aua.am");
+        signUpPage.fillPassword("#Test2023");
+        List<String> errorMessages = signUpPage.getErrorMessages();
+        softAssert.assertTrue(errorMessages.isEmpty());
+    }
+
+    @Test
+    public void testTakenUsername(){
+        SoftAssert softAssert = new SoftAssert();
+        CodePenSignUpPage signUpPage = homePage.clickSignUpLink();
+        signUpPage.clickSignUpWithEmail();
+        signUpPage.fillUsername("test");
+        List<String> errorMessages = signUpPage.getErrorMessages();
+        softAssert.assertTrue(errorMessages.contains(duplicateUsernameErrorMessage));
+    }
+
+    @Test(dataProvider = "invalid-emails")
+    public void testSignUpWithInvalidEmails(String email){
+        SoftAssert softAssert = new SoftAssert();
+        CodePenSignUpPage signUpPage = homePage.clickSignUpLink();
+        signUpPage.clickSignUpWithEmail();
+        signUpPage.fillEmail(email);
+        signUpPage.clickSubmit();
+        List<String> errorMessages = signUpPage.getErrorMessages();
+        softAssert.assertTrue(errorMessages.contains(emailInvalidErrorMessage));
+    }
+
 
 //    @Test
 //    public void testLogin() {
